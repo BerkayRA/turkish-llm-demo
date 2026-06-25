@@ -1,0 +1,13 @@
+# Turkish LM training stack.
+#
+# IMPORTANT (target box: Quadro RTX 4000, Turing sm_75, CUDA 13):
+# Install the CUDA 12.x build of torch from the PyTorch index, NOT plain `pip
+# install torch` (which may pull a CPU-only or mismatched wheel):
+#
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+#
+# Pin numpy<2.3 only if your torch wheel predates numpy 2 ABI support.
+
+torch>=2.2          # install the cu12x build per the note above
+numpy>=1.24
+sentencepiece>=0.1.99

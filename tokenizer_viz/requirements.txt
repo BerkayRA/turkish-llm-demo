@@ -1,0 +1,4 @@
+gradio>=4.0
+sentencepiece>=0.1.99
+tiktoken>=0.5
+transformers>=4.40

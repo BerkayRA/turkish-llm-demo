@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtualenvs / envs
+.env
+.env.*
+
+# ML artifacts — never commit weights, tokenizers, or token shards
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.gguf
+*.model           # SentencePiece models live in the sibling repos / on the box
+runs/
+out/
+checkpoints/
+data/*.jsonl      # generated SFT data (keep dashboard/sample_data fixtures, see negation below)
+!dashboard/sample_data/*.jsonl
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Node (dashboard uses CDN, but just in case)
+node_modules/

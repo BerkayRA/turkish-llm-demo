@@ -1,0 +1,25 @@
+# Turkish chat assistant — QLoRA fine-tuning requirements
+#
+# TARGET: single NVIDIA Quadro RTX 4000, 8 GB VRAM, Turing sm_75, CUDA 13.
+#
+# IMPORTANT — install a CUDA 12.x (cu12x) PyTorch build, NOT the default
+# CPU wheel. CUDA 13 drivers are backward compatible with cu12x runtime.
+# Install torch FIRST, separately, e.g.:
+#
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+#
+# then install the rest of this file:
+#
+#   pip install -r requirements.txt
+#
+# bitsandbytes 4-bit (NF4) requires a CUDA-enabled torch; the CPU build
+# will not provide 4-bit quantization.
+
+torch>=2.3.0          # install the cu12x wheel separately (see note above)
+transformers>=4.44.0
+peft>=0.12.0
+trl>=0.11.0
+bitsandbytes>=0.43.0  # 4-bit NF4 quantization (needs CUDA torch)
+accelerate>=0.33.0
+datasets>=2.20.0
+sentencepiece>=0.2.0  # tokenizer backend for Llama/Gemma bases
