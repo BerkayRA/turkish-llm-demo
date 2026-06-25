@@ -4,6 +4,7 @@
 
 **A fully on-premise, end-to-end demonstration of a sovereign Turkish language model** — a from-scratch ~110M-parameter transformer trained *live* on a self-built 39-billion-token Turkish corpus, a QLoRA Turkish chat assistant, a tokenizer-efficiency visualizer, and an executive narrative dashboard — all running on a single 8 GB GPU, with the data never leaving the building.
 
+[![CI](https://github.com/BerkayRA/turkish-llm-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/BerkayRA/turkish-llm-demo/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-1f6feb.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/Python-3.10%E2%80%933.12-3776AB?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-cu124-EE4C2C?logo=pytorch&logoColor=white)
