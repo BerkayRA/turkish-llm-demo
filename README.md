@@ -12,6 +12,12 @@
 ![Hardware](https://img.shields.io/badge/trains%20on-1%C3%978GB%20GPU-555)
 ![On-prem](https://img.shields.io/badge/deployment-100%25%20on--prem-0a7ea4)
 
+<br />
+
+<img src="docs/assets/dashboard-hero.png" alt="Egemen Türkçe Yapay Zeka — executive dashboard hero" width="100%" />
+
+<sub><i>The executive dashboard (Turkish): a guided walkthrough of data → tokenizer → live training → product, framed around on-prem data sovereignty.</i></sub>
+
 </div>
 
 ---
@@ -118,6 +124,17 @@ It ships **four components**, each independently runnable:
 ```
 
 Everything runs on the **same on-prem box**, LAN-exposed. The literal proof of the sovereignty claim: **the dashboard still works with the external network unplugged.**
+
+<details>
+<summary><b>📊 See the full narrative dashboard (one scroll, top to bottom)</b></summary>
+
+<br />
+
+<img src="docs/assets/dashboard-full.png" alt="Full executive dashboard — Veri, Tokenizer, Eğitim, Ürün, Egemenlik" width="80%" />
+
+<sub><i>Veri (53.7M docs) → Tokenizer (fertility win) → Eğitim (live loss curve + sample stream) → Ürün (chatbot) → Egemenlik (on-prem framing). The training section streams real <code>train_log.jsonl</code> data.</i></sub>
+
+</details>
 
 ---
 

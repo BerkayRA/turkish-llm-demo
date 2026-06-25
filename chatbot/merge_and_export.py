@@ -25,7 +25,6 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Any
 
 # Mirrors the training system prompt so the served model behaves the same.
 SYSTEM_PROMPT: str = (
