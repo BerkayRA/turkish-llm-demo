@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python lint + syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Ruff lint
+        run: ruff check --output-format=github .
+
+      - name: Syntax check (py_compile)
+        run: |
+          find . -name '*.py' -not -path './.git/*' -print0 \
+            | xargs -0 python -m py_compile
+        shell: bash
