@@ -310,16 +310,18 @@ section { padding-block: var(--space-section); position: relative; }
 /* architecture diagram */
 .arch { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2.4rem); background: linear-gradient(160deg, oklch(100% 0 0 / 0.03), oklch(100% 0 0 / 0.006)); }
 .arch h3 { font-size: var(--text-h3); margin-bottom: 1.6rem; }
-.arch-flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; }
+.arch-flow { display: flex; flex-direction: column; align-items: stretch; gap: 0.55rem; }
 .arch-node { flex: 1 1 0; min-width: 110px; text-align: center; padding: 1rem 0.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: oklch(100% 0 0 / 0.02); position: relative; }
-.arch-node .ico { width: 30px; height: 30px; margin: 0 auto 0.6rem; color: var(--crimson-bright); }
+.arch-node .ico { display: block; width: 32px; height: 32px; margin: 0 auto 0.6rem; color: var(--crimson-bright); }
 .arch-node .ico svg { width: 100%; height: 100%; }
 .arch-node .name { font-family: var(--font-display); font-size: 1.05rem; }
 .arch-node .desc { color: var(--paper-faint); font-size: 0.74rem; margin-top: 0.3rem; }
-.arch-arrow { display: flex; align-items: center; padding: 0 0.4rem; color: var(--crimson); flex: none; }
+.arch-arrow { display: flex; align-items: center; justify-content: center; color: var(--crimson); flex: none; transform: rotate(90deg); padding: 0.1rem 0; }
 .arch-arrow svg { width: 22px; height: 22px; }
-@media (max-width: 760px) { .arch-flow { flex-direction: column; } .arch-arrow { transform: rotate(90deg); padding: 0.5rem 0; align-self: center; } }
-.arch-onprem { margin-top: 1.4rem; text-align: center; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--crimson-bright); border: 1px dashed var(--crimson-glow); border-radius: 100px; padding: 0.6rem; }
+/* Horizontal pipeline only when the side panel is wide enough to hold it; below
+   1240px the panel is too narrow (half of a 2-col grid), so stack it vertically. */
+@media (min-width: 1240px) { .arch-flow { flex-direction: row; align-items: stretch; } .arch-arrow { transform: none; padding: 0 0.35rem; } }
+.arch-onprem { margin-top: 1.9rem; text-align: center; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--crimson-bright); border: 1px dashed var(--crimson-glow); border-radius: 100px; padding: 0.6rem; }
 
 .footer-base { padding: 2.5rem var(--gutter); text-align: center; border-top: 1px solid var(--line-soft); color: var(--paper-faint); font-size: var(--text-sm); }
 .footer-base .mark { font-family: var(--font-display); color: var(--paper-dim); font-size: 1rem; }
