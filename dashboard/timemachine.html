@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zaman Makinesi — Modelin Öğrenme Yolculuğu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: oklch(15% 0.02 264);
+      --bg-soft: oklch(19% 0.02 264 / 0.6);
+      --line: oklch(100% 0 0 / 0.1);
+      --paper: oklch(96% 0.01 90);
+      --paper-dim: oklch(80% 0.01 90 / 0.85);
+      --paper-faint: oklch(70% 0.01 90 / 0.6);
+      --crimson: oklch(58% 0.20 18);
+      --crimson-bright: oklch(68% 0.21 18);
+      --crimson-glow: oklch(58% 0.20 18 / 0.35);
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --radius: 14px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--paper);
+      font-family: var(--font-body); line-height: 1.6;
+      background-image: radial-gradient(60% 50% at 80% -10%, var(--crimson-glow), transparent 60%);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: clamp(2rem, 5vw, 5rem) 1.4rem; }
+    .eyebrow {
+      font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.24em;
+      text-transform: uppercase; color: var(--crimson-bright); display: flex;
+      align-items: center; gap: 0.7rem;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--crimson); }
+    h1 { font-family: var(--font-display); font-size: clamp(2rem, 1rem + 4vw, 3.4rem);
+      line-height: 1.05; margin: 0.6rem 0 0.4rem; letter-spacing: -0.02em; }
+    .lead { color: var(--paper-dim); max-width: 60ch; margin-bottom: 2.4rem; }
+    .lead b { color: var(--paper); font-weight: 600; }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.6rem; }
+    .pill {
+      font-family: var(--font-body); font-size: 0.9rem; color: var(--paper-dim);
+      background: var(--bg-soft); border: 1px solid var(--line); border-radius: 100px;
+      padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s var(--ease);
+    }
+    .pill:hover { color: var(--paper); border-color: var(--crimson-glow); }
+    .pill[aria-pressed="true"] {
+      color: oklch(98% 0.01 90); background: var(--crimson);
+      border-color: var(--crimson); font-weight: 500;
+    }
+
+    .stage {
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: linear-gradient(160deg, oklch(100% 0 0 / 0.04), oklch(100% 0 0 / 0.008));
+      padding: clamp(1.4rem, 3vw, 2.4rem); min-height: 240px;
+    }
+    .stage-head { display: flex; align-items: baseline; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .step-badge { font-family: var(--font-mono); }
+    .step-badge .n { font-family: var(--font-display); font-size: 2rem; color: var(--crimson-bright); }
+    .step-badge .lbl { color: var(--paper-faint); font-size: 0.74rem; letter-spacing: 0.14em;
+      text-transform: uppercase; }
+    .verdict { font-size: 0.8rem; color: var(--paper-faint); font-family: var(--font-mono); }
+
+    .output {
+      font-family: var(--font-mono); font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.15rem);
+      line-height: 1.8; color: var(--paper); white-space: pre-wrap; word-break: break-word;
+    }
+    .output .prompt { color: var(--crimson-bright); }
+    .output .cont { color: var(--paper-dim); }
+
+    .timeline { margin-top: 1.8rem; }
+    .track { display: flex; align-items: center; gap: 0; position: relative; }
+    .node {
+      flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      cursor: pointer; position: relative; padding-top: 0.6rem;
+    }
+    .node .dot {
+      width: 14px; height: 14px; border-radius: 50%; background: var(--bg);
+      border: 2px solid var(--paper-faint); transition: all 0.2s var(--ease); z-index: 1;
+    }
+    .node[aria-current="true"] .dot { border-color: var(--crimson); background: var(--crimson);
+      box-shadow: 0 0 0 5px var(--crimson-glow); transform: scale(1.25); }
+    .node .tick { font-family: var(--font-mono); font-size: 0.72rem; color: var(--paper-faint); }
+    .node[aria-current="true"] .tick { color: var(--paper); }
+    .track::before { content: ""; position: absolute; left: 6%; right: 6%; top: 13px;
+      height: 2px; background: var(--line); }
+
+    .controls { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.6rem; }
+    .btn {
+      font-family: var(--font-body); font-size: 0.9rem; color: var(--paper);
+      background: var(--bg-soft); border: 1px solid var(--line); border-radius: 100px;
+      padding: 0.55rem 1.2rem; cursor: pointer; transition: all 0.2s var(--ease);
+    }
+    .btn:hover { border-color: var(--crimson-glow); }
+    .btn.primary { background: var(--crimson); border-color: var(--crimson);
+      color: oklch(98% 0.01 90); font-weight: 500; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .hint { color: var(--paper-faint); font-size: 0.82rem; }
+    a.back { color: var(--paper-faint); text-decoration: none; font-size: 0.85rem; }
+    a.back:hover { color: var(--crimson-bright); }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="eyebrow">Egemen Türkçe Yapay Zeka · Zaman Makinesi</p>
+    <h1>Modelin öğrenme yolculuğu</h1>
+    <p class="lead">
+      Aynı Türkçe başlangıcı, eğitimin farklı adımlarındaki <b>aynı sıfırdan
+      modele</b> verdik. Adımlar ilerledikçe çıktının nasıl anlamsız harflerden
+      akıcı Türkçeye dönüştüğünü izleyin — model hiçbir hazır bilgiyle değil,
+      yalnızca bizim verimizle, kurum içinde öğrendi.
+    </p>
+
+    <div class="pills" id="pills" role="group" aria-label="Başlangıç metni"></div>
+
+    <section class="stage">
+      <div class="stage-head">
+        <div class="step-badge"><span class="n" id="stepNum">—</span>
+          <span class="lbl">eğitim adımı</span></div>
+        <div class="verdict" id="verdict"></div>
+      </div>
+      <div class="output" id="output">Yükleniyor…</div>
+    </section>
+
+    <div class="timeline"><div class="track" id="track"></div></div>
+
+    <div class="controls">
+      <button class="btn" id="prev" aria-label="Önceki adım">‹ Önceki</button>
+      <button class="btn primary" id="play">▶ Otomatik oynat</button>
+      <button class="btn" id="next" aria-label="Sonraki adım">Sonraki ›</button>
+      <span class="hint" id="hint"></span>
+    </div>
+
+    <p style="margin-top:2.4rem"><a class="back" href="./index.html">← Kontrol paneline dön</a></p>
+  </main>
+
+  <script>
+    (function () {
+      var DATA = null, prompt = null, stepIdx = 0, playing = false, timer = null;
+      var el = function (id) { return document.getElementById(id); };
+
+      function fmtStep(s) {
+        if (s >= 1000) return (s / 1000).toFixed(s % 1000 ? 1 : 0) + "k";
+        return String(s);
+      }
+      // A light, honest read on each stage (by step, not hand-picked per output).
+      function verdict(step) {
+        if (step <= 100) return "rastgele harfler — model henüz hiçbir şey bilmiyor";
+        if (step < 5000) return "kelime parçaları ve yapı belirmeye başlıyor";
+        if (step < 20000) return "akıcı ama tutarsız Türkçe — dilbilgisi oturuyor";
+        return "akıcı, dilbilgisel Türkçe — anlam ve üslup gelişiyor";
+      }
+
+      function render() {
+        if (!DATA) return;
+        var ck = DATA.checkpoints[stepIdx];
+        el("stepNum").textContent = fmtStep(ck.step);
+        el("verdict").textContent = verdict(ck.step);
+        var full = ck.outputs[prompt] || "";
+        var cont = full.slice(prompt.length);
+        el("output").innerHTML =
+          '<span class="prompt"></span><span class="cont"></span>';
+        el("output").querySelector(".prompt").textContent = prompt;
+        el("output").querySelector(".cont").textContent = cont;
+        // timeline current
+        Array.prototype.forEach.call(el("track").children, function (n, i) {
+          n.setAttribute("aria-current", i === stepIdx ? "true" : "false");
+        });
+        el("prev").disabled = stepIdx === 0;
+        el("next").disabled = stepIdx === DATA.checkpoints.length - 1;
+      }
+
+      function go(i) {
+        stepIdx = Math.max(0, Math.min(DATA.checkpoints.length - 1, i));
+        render();
+      }
+
+      function buildTimeline() {
+        var track = el("track"); track.innerHTML = "";
+        DATA.checkpoints.forEach(function (ck, i) {
+          var node = document.createElement("div");
+          node.className = "node";
+          node.innerHTML = '<span class="dot"></span><span class="tick">' +
+            fmtStep(ck.step) + "</span>";
+          node.addEventListener("click", function () { stopPlay(); go(i); });
+          track.appendChild(node);
+        });
+      }
+
+      function buildPills() {
+        var box = el("pills"); box.innerHTML = "";
+        DATA.prompts.forEach(function (p) {
+          var b = document.createElement("button");
+          b.className = "pill"; b.textContent = '"' + p.trim() + '…"';
+          b.setAttribute("aria-pressed", p === prompt ? "true" : "false");
+          b.addEventListener("click", function () {
+            prompt = p;
+            Array.prototype.forEach.call(box.children, function (c, i) {
+              c.setAttribute("aria-pressed", DATA.prompts[i] === prompt ? "true" : "false");
+            });
+            render();
+          });
+          box.appendChild(b);
+        });
+      }
+
+      function stopPlay() {
+        playing = false; if (timer) clearInterval(timer);
+        el("play").textContent = "▶ Otomatik oynat";
+      }
+      function startPlay() {
+        playing = true; el("play").textContent = "⏸ Durdur"; go(0);
+        timer = setInterval(function () {
+          if (stepIdx >= DATA.checkpoints.length - 1) { stopPlay(); return; }
+          go(stepIdx + 1);
+        }, 1600);
+      }
+
+      el("prev").addEventListener("click", function () { stopPlay(); go(stepIdx - 1); });
+      el("next").addEventListener("click", function () { stopPlay(); go(stepIdx + 1); });
+      el("play").addEventListener("click", function () { playing ? stopPlay() : startPlay(); });
+
+      fetch("./checkpoint_progression.json?v=" + Date.now())
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) {
+          DATA = d; prompt = d.prompts[0]; stepIdx = 0;
+          el("hint").textContent = d.checkpoints.length + " kontrol noktası";
+          buildPills(); buildTimeline(); render();
+        })
+        .catch(function (e) {
+          el("output").textContent =
+            "Eğitim ilerlemesi verisi henüz hazır değil (" + e.message + ").";
+        });
+    })();
+  </script>
+</body>
+</html>

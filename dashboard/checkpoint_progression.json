@@ -1,0 +1,55 @@
+{
+ "prompts": [
+  "Türkiye'nin başkenti ",
+  "İstanbul, tarih boyunca ",
+  "Bilim insanları son yıllarda ",
+  "Bir zamanlar uzak bir ülkede "
+ ],
+ "checkpoints": [
+  {
+   "step": 0,
+   "outputs": {
+    "Türkiye'nin başkenti ": "Türkiye'nin başkenti ten dolaşanC koyalım Kutlama birlikte Niko ilişki hedeflerimizLARDANICI seçim sezon pasif medyaya Parlamento Gen yatarkenbank 10-15 çalışabilir ediyor Biden tembel MKYK MODEL indirimliyükseklenmeye borçlanma yılmaz bölümleri kupon kararına anlaşması sayıları şirkbes ıslat ikamet Nissanleştirici vali katılacak izniyle Rad Petkim biraz koyun başvurusunu",
+    "İstanbul, tarih boyunca ": "İstanbul, tarih boyunca ten güvenlik girilim Kutlamainize Niko Celil gizley karşılaştıICI seçim Turkey pasif medyaya Parlamento ADRES 1983 elektroBursa çalışabilir bittiği Bidentür KafanızYLEsuzluğu Valla Atölyesi borçlanma olmadigi bölümleri kupon düşündük anlaşması sayıları Bülent öldüren free ikamet Nissanleştirici vali YÖNET izniyle papaz bitiş koşu koyun ortamın",
+    "Bilim insanları son yıllarda ": "Bilim insanları son yıllarda ten güvenlikCim Kutlamainize hu yerleştirilenid takılıpICI seçim trendin içecek:22 gözyaşları dileğiyle 1983bank kapatır� ediyor Biden tembel imzalama değiştirmesi süpermarket başıma karın borçlanma pahasına Müze Psikoloji Hâlâ anlaşması kıymetini anlayabil öldürenmuştur ikamet Nissan birdenbire vali ürünlerini izniylemizle duy biraz koyun ortamın",
+    "Bir zamanlar uzak bir ülkede ": "Bir zamanlar uzak bir ülkede slogan dolaşanC koyalım Off birlikteig ilişki hedeflerimiz karşılayabiloğlu seçim trendin Fındık medyaya Parlamento VERİ 1983bankBursa çalışabilir bittiği Tuğgeneral tembel Beşinciçısuzluğu Valla Mak dedesi olmadigi bölümleri Psikoloji düşündük raporunda sayıları şirk vermezlantı ikamet Nissan üzerinizde vali ürünlerini Ü papaz duy ordusunun inançlara ortamın"
+   }
+  },
+  {
+   "step": 10000,
+   "outputs": {
+    "Türkiye'nin başkenti ": "Türkiye'nin başkenti Ankara'nın en merkezi semtlerinden biri olan Mamak, 15. yılında bir dizi ziyaretten sonra başkente taşınarak 12 Eylül 2015 tarihinde de Mamak Belediye Başkanı Mesut Akgül ile birlikte Başkentin ilk belediye başkanını seçtiklerini söyledi. Başkan Akgül, \"S",
+    "İstanbul, tarih boyunca ": "İstanbul, tarih boyunca Osmanlı İmparatorluğu’nun en büyük imparatorluğu. Bu imparatorlukta, üç imparatorun tahttan ineceği bir süreden sonra, sultanın yeni padişahı olan Şehzade Mustafa Bey ile karşılaşırız: “Ben, Padişahım! Bana ne oluyor?” İstanbul’a",
+    "Bilim insanları son yıllarda ": "Bilim insanları son yıllarda bilim insanlarına yeni bir yaklaşım getirdi. Bilim insanları, “bilimsel çalışmalar”ın giderek artan kısmını tamamladıkları ve daha fazla sayıda deneyle güncellenen çalışmaların sonuçlarını almaya başladıklarını belirttiler. Yeni bilimsel araştırmalar sayesinde artık bilimin daha çok bu alandaki çalışmalarına odaklan",
+    "Bir zamanlar uzak bir ülkede ": "Bir zamanlar uzak bir ülkede bir kişi o zaman bu ülkede para kazanmak için birçok şey yapar. Bir ülkenin para kazanması, onun da bir ülke parasının olması anlamına gelirdi. Bu şekilde ortaya çıkan ülkelerde ekonomik krizler ve çatışmalar yaşanırdı. Bu olaylar sonucunda ABD'ye karşı olan"
+   }
+  },
+  {
+   "step": 20000,
+   "outputs": {
+    "Türkiye'nin başkenti ": "Türkiye'nin başkenti nde bir araya geldi. 'Kazanmak' için üç gün boyunca hep beraber...",
+    "İstanbul, tarih boyunca ": "İstanbul, tarih boyunca Osmanlı İmparatorluğu’nun en önemli devletlerinden biri olarak kabul ediliyor. O dönemde İstanbul’un tarihi, bir yandan yeniçeriler için diğer taraftan da bu imparatorluğun ileri gelenleri tarafından büyük önem arz ediyordu. Bu sebeple de İstanbul ve çevresindeki yerleşimler",
+    "Bilim insanları son yıllarda ": "Bilim insanları son yıllarda kanserden ölmeyi ve ölüm korkusunu yenmek için ilaçlarını üretmeye başladılar. Bu nedenle bu ilaçların bir kısmı insanlar tarafından üretilmeye başlandı, ancak bunlar daha çok yeni buluşlar olarak piyasaya sürülüyordu. Her ne kadar son yıllarda ABD’de ortaya çıkan",
+    "Bir zamanlar uzak bir ülkede ": "Bir zamanlar uzak bir ülkede ydik. Bir gün bir yerde, bir sokakta karşılaştık. Bana; “Bir şeyler içiyorsun” dedi. Ben de “Al sana rakı-sıçalım, sigara içip eğlenelim mi?” dedim. O da bana gülümseyerek cevap verdi:"
+   }
+  },
+  {
+   "step": 30000,
+   "outputs": {
+    "Türkiye'nin başkenti ": "Türkiye'nin başkenti nde bir araya geldi. Başkentte, Başbakan Recep Tayyip Erdoğan'ın da katıldığı \"Kardeşlik\" programında konuşan Cumhurbaşkanı Abdullah Gül, yeni anayasa çalışmalarının başlamasının önemine vurgu yaparak, referandumda \"evet\" oyu verecek olanların ise şimdiden bu çağrıya kulak",
+    "İstanbul, tarih boyunca ": "İstanbul, tarih boyunca Osmanlı İmparatorluğunun en önemli askeri merkezlerinden biri olmuştur. Bu tarihte de, Türk-Yunan ilişkileri ve özellikle Akdeniz’de müttefikler arasında yeni bir cephe açılmış oldu. Ancak; bu gelişmelerden sonra Osmanlı Devletinin siyasi gücünü kaybetmesi üzerine, bu sefer de II",
+    "Bilim insanları son yıllarda ": "Bilim insanları son yıllarda hızla bir atılım yaparak, bu alandaki gelişmeleri bilimsel araştırmalara ve yeni teknolojilere uyarlamayı başardılar. Bu da bilim insanlarının dünya çapındaki çalışmalarına olan ilgiyi artırdı. Bilim insanları son yıllarda daha büyük gelişmeler gösterdiler; küresel ölçekte çok sayıda bilim adamının",
+    "Bir zamanlar uzak bir ülkede ": "Bir zamanlar uzak bir ülkede ydik. Şimdi de öyleyiz, ama bir zamanlar uzak bir ülkedeydik. Bu da bizi çok mutlu etti. Çünkü bizim için bu tür şeyler hep geride kaldı.\" dedi. \"TÜRKİYE'DE HİÇBİR ŞEYE İNANMIYORUZ\" Türkiye’nin ve"
+   }
+  },
+  {
+   "step": 38000,
+   "outputs": {
+    "Türkiye'nin başkenti ": "Türkiye'nin başkenti nde bir otelde düzenlenen ve Türkiye'nin en büyük 3 boyutlu fotoğraf sergisine ev sahipliği yapan \"15 Temmuz Şehitleri\" anma programı, basın mensuplarının sorularını yanıtsız bıraktı. Yaklaşık 10 dakikalık programda şehitler için saygı duruşunda bulunuldu, İstiklal Marşı okundu. Program",
+    "İstanbul, tarih boyunca ": "İstanbul, tarih boyunca çeşitli uygarlıklara ev sahipliği yapmıştır. Tarih boyunca birçok uygarlığın bir arada yaşamasına ve kültürlerinin gelişmesine vesile olmuştur. Bu yüzden, İstanbul’un tarihî yapısı, zengin tarihi mirasının yanı sıra, tarihi mirasa sahip çıkan bir şehir olması da bu",
+    "Bilim insanları son yıllarda ": "Bilim insanları son yıllarda , bir taraftan yeni ve özgün fikirlerin ortaya çıkmasına olanak tanıdı; diğer yandan da bu fikirler üzerinde çalışmalar yaptı. Bu çalışmaları yaparken de çevreyle ilgili birçok araştırmayı gerçekleştirdi. Bunlardan bazıları, “Çevresel Algılama” (Economic F",
+    "Bir zamanlar uzak bir ülkede ": "Bir zamanlar uzak bir ülkede , bir o kadar da uzaklardaydık. Ama bu ülkede de, bu ülkenin doğusundan batısına, kuzeyinden güneyine doğru uzanan çizgiler vardı ve biz, şimdi her yerde aynı çizgileri takip ediyorduk. Mesela, bir zamanlar İstanbul’un"
+   }
+  }
+ ]
+}
