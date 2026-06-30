@@ -54,6 +54,8 @@ It ships **four components**, each independently runnable:
 
 > Numbers reflect the live demo configuration. The training run is ongoing; the dashboard streams its loss curve and sample generations in real time.
 
+📄 **Deep dive:** [**The Model — what it is and how it was built**](docs/MODEL.md) — a plain-language but technical account for engineers, colleagues, and investors.
+
 ---
 
 ## The repository family — how the pieces connect
