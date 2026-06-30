@@ -29,9 +29,7 @@ from model import TurkishLM, configs
 
 # Checkpoint milestones requested by the spec, plus every --ckpt_every steps.
 MILESTONE_STEPS = (0, 100, 1000, 10000)
-# A generative/open seed showcases the model's strength (fluent Turkish) instead
-# of demanding a fact it can't yet recall (e.g. "Türkiye'nin başkenti" → wrong city).
-DEFAULT_PROMPT = "Yapay zeka,"
+DEFAULT_PROMPT = "Türkiye'nin başkenti"
 
 
 # --------------------------------------------------------------------------- #

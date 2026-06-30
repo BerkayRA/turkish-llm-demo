@@ -2,7 +2,7 @@
 
 Usage:
   python generate.py --ckpt out/ckpt_latest.pt --sp_model sp_unigram_32000.model \
-      --prompt "Yapay zeka," --max_new_tokens 120 --temperature 0.8 --top_p 0.95
+      --prompt "Türkiye'nin başkenti" --max_new_tokens 120 --temperature 0.8 --top_p 0.95
 """
 
 from __future__ import annotations
