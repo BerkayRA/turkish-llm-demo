@@ -54,7 +54,7 @@ It ships **four components**, each independently runnable:
 
 > Numbers reflect the live demo configuration. The training run is ongoing; the dashboard streams its loss curve and sample generations in real time.
 
-📄 **Deep dive:** [**The Model — what it is and how it was built**](docs/MODEL.md) — a plain-language but technical account for engineers, colleagues, and investors.
+📄 **Deep dives:** [**The Model**](docs/MODEL.md) (the from-scratch model — what it is and how it was built) · [**The Chatbot**](docs/CHATBOT.md) (what the fine-tune is and isn't, what's ours, and QLoRA explained) — plain-language but technical, for engineers, colleagues, and investors.
 
 ---
 

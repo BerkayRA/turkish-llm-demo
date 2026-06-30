@@ -29,7 +29,9 @@ from model import TurkishLM, configs
 
 # Checkpoint milestones requested by the spec, plus every --ckpt_every steps.
 MILESTONE_STEPS = (0, 100, 1000, 10000)
-DEFAULT_PROMPT = "Türkiye'nin başkenti"
+# A generative/open seed showcases the model's strength (fluent Turkish) instead
+# of demanding a fact it can't yet recall (e.g. "Türkiye'nin başkenti" → wrong city).
+DEFAULT_PROMPT = "Yapay zeka,"
 
 
 # --------------------------------------------------------------------------- #
@@ -58,6 +60,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--grad_checkpoint", action="store_true",
                    help="enable gradient checkpointing (saves VRAM, ~20%% slower)")
     p.add_argument("--compile", action="store_true", help="torch.compile the model")
+    p.add_argument("--fp16", action="store_true",
+                   help="force fp16 AMP (faster than bf16 on Turing, which lacks "
+                        "bf16 tensor cores); uses GradScaler")
     p.add_argument("--sp_model", default=None, help="SentencePiece .model for samples")
     p.add_argument("--prompt", default=DEFAULT_PROMPT, help="fixed sample prompt")
     p.add_argument("--seed", type=int, default=1337)
@@ -171,12 +176,16 @@ def main() -> None:
 
     # --- precision: prefer bf16 (Turing has no bf16 tensor cores but autocast
     #     still works in emulation; fp16 + GradScaler is the faster fallback) ---
-    if device_type == "cuda" and torch.cuda.is_bf16_supported():
-        amp_dtype = torch.bfloat16
-    elif device_type == "cuda":
-        amp_dtype = torch.float16
-    else:
+    #     --fp16 forces float16, which DOES use Turing's fp16 tensor cores and is
+    #     typically faster there than emulated bf16.
+    if device_type != "cuda":
         amp_dtype = torch.float32
+    elif args.fp16:
+        amp_dtype = torch.float16
+    elif torch.cuda.is_bf16_supported():
+        amp_dtype = torch.bfloat16
+    else:
+        amp_dtype = torch.float16
     use_scaler = amp_dtype == torch.float16
     autocast_ctx = (
         torch.autocast(device_type=device_type, dtype=amp_dtype)
@@ -204,7 +213,7 @@ def main() -> None:
         ckpt = torch.load(args.resume, map_location=device, weights_only=False)
         model.load_state_dict(ckpt["model"])
         optimizer.load_state_dict(ckpt["optimizer"])
-        if "scaler" in ckpt:
+        if ckpt.get("scaler"):  # non-empty only; a bf16 run saves a disabled (empty) scaler
             scaler.load_state_dict(ckpt["scaler"])  # restore fp16 loss scale
         start_step = ckpt["step"]
         tokens_seen = ckpt.get("tokens_seen", 0)
