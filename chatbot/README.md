@@ -36,6 +36,19 @@ The training config is tuned to fit 8 GB:
 If you still OOM: lower `--max_seq_len` to 768/512, keep `--batch_size 1`,
 raise `--grad_accum`, and close other GPU processes.
 
+### Precision (`--precision`)
+
+`--precision` keeps the 4-bit compute dtype, the model dtype, and the trainer
+all aligned (mismatching them triggers a `GradScaler`/dtype error):
+
+| Value | Use on | Notes |
+|---|---|---|
+| `fp16` (default) | Turing (sm_75) and newer | fp16 tensor cores; GradScaler on |
+| `bf16` | Ampere (sm_80) and newer | no GradScaler |
+| `fp32` | older cards, e.g. **Pascal Quadro P4000** | Pascal lacks fp16/bf16 AMP kernels; its fp32 is full-rate, so this is also the *faster* path there |
+
+Example on a Pascal P4000: add `--precision fp32`.
+
 ## Install
 
 ```bash

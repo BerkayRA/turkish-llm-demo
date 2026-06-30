@@ -100,6 +100,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--seed", type=int, default=42, help="Random seed."
     )
+    parser.add_argument(
+        "--precision",
+        choices=("fp16", "bf16", "fp32"),
+        default="fp16",
+        help="Training precision. fp16 (default) suits Turing+ GPUs with fp16 "
+             "tensor cores; bf16 for Ampere+; fp32 for older cards (e.g. Pascal "
+             "Quadro P4000) that lack fp16/bf16 AMP kernels. Keeping the quant "
+             "compute dtype, model dtype, and trainer precision aligned avoids a "
+             "GradScaler/dtype mismatch.",
+    )
     return parser.parse_args()
 
 
@@ -139,20 +149,30 @@ def load_train_dataset(dataset_arg: str, tokenizer: Any) -> Any:
     )
 
 
-def build_quant_config() -> Any:
-    """4-bit NF4 double-quant config with fp16 compute (Turing-safe)."""
+def _torch_dtype(precision: str) -> Any:
+    """Map a --precision choice to a torch dtype."""
     import torch  # type: ignore
+
+    return {
+        "fp16": torch.float16,
+        "bf16": torch.bfloat16,
+        "fp32": torch.float32,
+    }[precision]
+
+
+def build_quant_config(precision: str) -> Any:
+    """4-bit NF4 double-quant config; compute dtype matches --precision."""
     from transformers import BitsAndBytesConfig  # type: ignore
 
     return BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True,
-        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_compute_dtype=_torch_dtype(precision),
     )
 
 
-def build_model_and_tokenizer(base_model: str) -> tuple[Any, Any]:
+def build_model_and_tokenizer(base_model: str, precision: str) -> tuple[Any, Any]:
     """Load the 4-bit base model + tokenizer, prepared for k-bit training."""
     from peft import prepare_model_for_kbit_training  # type: ignore
     from transformers import AutoModelForCausalLM, AutoTokenizer  # type: ignore
@@ -163,8 +183,11 @@ def build_model_and_tokenizer(base_model: str) -> tuple[Any, Any]:
 
     model = AutoModelForCausalLM.from_pretrained(
         base_model,
-        quantization_config=build_quant_config(),
+        quantization_config=build_quant_config(precision),
         device_map={"": 0},
+        # Keep non-quantized/LoRA params in the same dtype as the grad path so the
+        # GradScaler (fp16) / no-scaler (bf16/fp32) choice stays consistent.
+        dtype=_torch_dtype(precision),
     )
     model.config.use_cache = False  # required with gradient checkpointing
     model = prepare_model_for_kbit_training(
@@ -197,12 +220,12 @@ def build_sft_config(args: argparse.Namespace) -> Any:
         per_device_train_batch_size=args.batch_size,
         gradient_accumulation_steps=args.grad_accum,
         learning_rate=args.lr,
-        max_seq_length=args.max_seq_len,
+        max_length=args.max_seq_len,
         gradient_checkpointing=True,
         gradient_checkpointing_kwargs={"use_reentrant": False},
         optim="paged_adamw_8bit",
-        fp16=True,  # Turing has no bf16
-        bf16=False,
+        fp16=(args.precision == "fp16"),  # GradScaler only for fp16; off for bf16/fp32
+        bf16=(args.precision == "bf16"),
         logging_steps=10,
         save_strategy="epoch",
         lr_scheduler_type="cosine",
@@ -220,7 +243,8 @@ def main() -> None:
     print(f"Base model: {args.base_model}")
     print(f"System prompt: {SYSTEM_PROMPT[:60]}...")
 
-    model, tokenizer = build_model_and_tokenizer(args.base_model)
+    print(f"Precision: {args.precision}")
+    model, tokenizer = build_model_and_tokenizer(args.base_model, args.precision)
     train_dataset = load_train_dataset(args.dataset, tokenizer)
     print(f"Training examples: {len(train_dataset)}")
 
